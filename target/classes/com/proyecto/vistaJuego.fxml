@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+
+<HBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.proyecto.VistaJuegoController" spacing="10" onKeyPressed="#manejarMovimientoProtagonista">
+    <children>
+        <!-- Zona del escenario (85%) -->
+        <GridPane fx:id="escenario" style="-fx-background-color: black;" HBox.hgrow="ALWAYS" />
+
+        <!-- Zona de información (15%) -->
+        <VBox spacing="10" style="-fx-background-color: #333; -fx-padding: 10; -fx-pref-width: 150;">
+            <!-- Información del turno -->
+            <Label fx:id="turnoActual" text="Turno: Protagonista" style="-fx-font-size: 14px; -fx-text-fill: white;" />
+
+            <!-- Información del protagonista -->
+            <Label text="Protagonista" style="-fx-font-size: 14px; -fx-text-fill: white;" />
+            <Label fx:id="nombreProtagonista" text="Nombre: " style="-fx-text-fill: white;" />
+            <Label fx:id="ataqueProtagonista" text="Ataque: " style="-fx-text-fill: white;" />
+            <Label fx:id="defensaProtagonista" text="Defensa: " style="-fx-text-fill: white;" />
+            <ProgressBar fx:id="vidaProtagonista" progress="1.0" style="-fx-accent: green;" />
+
+            <!-- Separador -->
+            <Label text="" style="-fx-font-size: 10px;" />
+
+            <!-- Información del enemigo -->
+            <Label text="Enemigo" style="-fx-font-size: 14px; -fx-text-fill: white;" />
+            <Label fx:id="nombreEnemigo" text="Nombre: " style="-fx-text-fill: white;" />
+            <Label fx:id="ataqueEnemigo" text="Ataque: " style="-fx-text-fill: white;" />
+            <Label fx:id="defensaEnemigo" text="Defensa: " style="-fx-text-fill: white;" />
+            <ProgressBar fx:id="vidaEnemigo" progress="1.0" style="-fx-accent: red;" />
+        </VBox>
+    </children>
+</HBox>

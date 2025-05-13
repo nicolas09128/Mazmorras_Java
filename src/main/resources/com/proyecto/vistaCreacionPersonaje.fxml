@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<StackPane fx:id="rootPane" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.proyecto.VistaCreacionPersonajeController">
+    <children>
+        <VBox alignment="CENTER" spacing="10">
+           
+            <TextField fx:id="nombre" promptText="Nombre" maxWidth="300" style="-fx-font-size: 16; -fx-padding: 5;" />
+            <TextField fx:id="salud" promptText="Salud" maxWidth="300" style="-fx-font-size: 16; -fx-padding: 5;" />
+            <TextField fx:id="ataque" promptText="Ataque" maxWidth="300" style="-fx-font-size: 16; -fx-padding: 5;" />
+            <Button text="Confirmar" onAction="#confirmarDatos" style="-fx-font-size: 16; -fx-padding: 10;" />
+        </VBox>
+    </children>
+</StackPane>

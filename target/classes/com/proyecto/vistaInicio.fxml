@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.proyecto.VistaInicioController" style="-fx-background-color: black; -fx-padding: 20; -fx-alignment: center;">
+    <children>
+        <Label text="WELCOME TO" style="-fx-font-size: 36; -fx-text-fill: red; -fx-font-family: 'Press Start 2P';" />
+        <Label text="DUNGEONS" style="-fx-font-size: 48; -fx-text-fill: orange; -fx-font-family: 'Press Start 2P'; -fx-effect: dropshadow(gaussian, yellow, 10, 0.5, 0, 0);" />
+        <Label text="PRESS ENTER" style="-fx-font-size: 24; -fx-text-fill: white; -fx-font-family: 'Press Start 2P'; -fx-padding: 20;" />
+        <Label text="Made for: Nicolás y Jose Antonio" wrapText="true" style="-fx-text-fill: gray; -fx-font-family: 'Press Start 2P'; -fx-font-size: 12; -fx-padding: 10;" />
+    </children>
+</VBox>
