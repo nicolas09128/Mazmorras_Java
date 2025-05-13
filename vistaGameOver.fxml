@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+<AnchorPane fx:id="rootPane" xmlns:fx="http://javafx.com/fxml" fx:controller="com.proyecto.VistaGameOverController" prefWidth="640" prefHeight="480" style="-fx-background-color: black;">
+    <ImageView fx:id="fondoGameOver" fitWidth="640" fitHeight="480" layoutX="0" layoutY="0" />
+    <Label fx:id="labelEnemigosMatados" text="Enemigos derrotados: 0" layoutX="160" layoutY="270" style="-fx-font-size: 28px; -fx-text-fill: white; -fx-font-family: 'Consolas';" />
+</AnchorPane>
