@@ -50,13 +50,7 @@ public class Protagonista extends Personaje {
         }
     }
 
-    public void atacar() {
-        if (mirandoDerecha) {
-            this.imagen.setImage(new Image(getClass().getResource("/com/imagenes/posibles_personajes/ataque_derecha.png").toExternalForm()));
-        } else {
-            this.imagen.setImage(new Image(getClass().getResource("/com/imagenes/posibles_personajes/ataque_izquierda.png").toExternalForm()));
-        }
-    }
+ 
 
     public void restaurarImagenBase() {
         this.imagen.setImage(new Image(getClass().getResource("/com/imagenes/posibles_personajes/caballero.gif").toExternalForm()));

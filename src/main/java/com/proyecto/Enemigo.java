@@ -19,6 +19,7 @@ public class Enemigo extends Personaje {
     private int percepcion;
     private ImageView imagen;
     private ImageView imagenDerecha;
+    private Thread hiloMovimiento;
 
     private static final Image IMAGEN_ENEMIGO;
     private static final Image IMAGEN_ENEMIGO_DERECHA;
@@ -170,7 +171,7 @@ public class Enemigo extends Personaje {
     }
 
     public void iniciarMovimientoAutomatico(Escenario escenario, Protagonista protagonista, GridPane gridPane, List<Enemigo> enemigos) {
-        Thread hiloMovimiento = new Thread(() -> {
+        hiloMovimiento = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
                 try {
                     Thread.sleep(1000); 
@@ -236,5 +237,11 @@ public class Enemigo extends Personaje {
 
         hiloMovimiento.setDaemon(true);
         hiloMovimiento.start();
+    }
+
+    public void detenerMovimiento() {
+        if (hiloMovimiento != null && hiloMovimiento.isAlive()) {
+            hiloMovimiento.interrupt();
+        }
     }
 }

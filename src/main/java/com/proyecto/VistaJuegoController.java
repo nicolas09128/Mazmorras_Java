@@ -40,6 +40,7 @@ public class VistaJuegoController {
     private Enemigo enemigoEnCombate = null;
     private boolean enCombate = false;
     private boolean clicRealizadoEsteTurno = false;
+    private int enemigosMatados = 0; // Contador de enemigos derrotados
 
     @FXML
     public void initialize() {
@@ -222,6 +223,14 @@ public class VistaJuegoController {
             danio = Math.max(0, atacante.getAtaque() - defensor.getDefensa());
         }
         defensor.setSalud(defensor.getSalud() - danio);
+        // Verificar si el defensor murió
+        if (defensor.getSalud() <= 0) {
+            if (defensor instanceof Enemigo) {
+                eliminarEnemigoDelMapa((Enemigo)defensor);
+            } else if (defensor == protagonista) {
+                mostrarGameOver();
+            }
+        }
         // Solo mostrar mensaje si NO estamos en combate y el atacante es el protagonista,
         // o si el atacante es un enemigo y no estamos en combate por turnos
         boolean mostrar = true;
@@ -330,11 +339,21 @@ private void iniciarMovimientoEnemigos() {
         // Si estamos en combate, NO avanzar turno automáticamente
         if (enCombate) return;
         turnoActualIndex = (turnoActualIndex + 1) % (enemigos.size() + 1);
+        // Ajustar si el índice es mayor que el número de enemigos vivos
+        if (turnoActualIndex > enemigos.size()) {
+            turnoActualIndex = 0;
+        }
         clicRealizadoEsteTurno = false;
         actualizarTurno();
         // Si es turno de un enemigo, mover/atacar inmediatamente
         if (turnoActualIndex != 0) {
-            moverEnemigos();
+            // Verificar que el enemigo en este turno aún existe
+            if (turnoActualIndex - 1 < enemigos.size()) {
+                moverEnemigos();
+            } else {
+                // Si el enemigo ya no existe, pasar al siguiente turno
+                avanzarTurno();
+            }
         }
     }
 
@@ -370,13 +389,13 @@ private void verificarEstadoJuego() {
 
 private void mostrarGameOver() {
     Platform.runLater(() -> {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Game Over");
-        alert.setHeaderText("Has perdido");
-        alert.setContentText("Tu personaje ha sido derrotado.");
-        alert.showAndWait();
         try {
-            App.setRoot("vistaInicio");
+            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/proyecto/vistaGameOver.fxml"));
+            javafx.scene.Parent root = loader.load();
+            VistaGameOverController controller = loader.getController();
+            controller.setEnemigosMatados(enemigosMatados);
+            // Cambiar la raíz de la escena principal usando el GridPane escenario
+            escenario.getScene().setRoot(root);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -459,12 +478,28 @@ private void mostrarGameOver() {
     }
 
     private void eliminarEnemigoDelMapa(Enemigo enemigo) {
+        // Detener cualquier movimiento automático del enemigo
+        enemigo.detenerMovimiento();
+        // Eliminar de la lista de enemigos
         enemigos.remove(enemigo);
-        escenario.getChildren().remove(enemigo.getImagen());
-        esc.getMatriz()[enemigo.getFila()][enemigo.getColumna()] = '.';
-        nombreEnemigo.setText("Nombre: ");
-        ataqueEnemigo.setText("Ataque: ");
-        defensaEnemigo.setText("Defensa: ");
-        vidaEnemigo.setProgress(0);
+        // Eliminar visualmente del mapa
+        Platform.runLater(() -> {
+            escenario.getChildren().remove(enemigo.getImagen());
+            esc.getMatriz()[enemigo.getFila()][enemigo.getColumna()] = '.';
+        });
+        // Limpiar la información de combate si este era el enemigo en combate
+        if (enemigo == enemigoEnCombate) {
+            nombreEnemigo.setText("Nombre: ");
+            ataqueEnemigo.setText("Ataque: ");
+            defensaEnemigo.setText("Defensa: ");
+            vidaEnemigo.setProgress(0);
+            enemigoEnCombate = null;
+            enCombate = false;
+        }
+        enemigosMatados++;
+        // Si ya no quedan enemigos, mostrar Game Over (fin del juego)
+        if (enemigos.isEmpty()) {
+            mostrarGameOver();
+        }
     }
 }
