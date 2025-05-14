@@ -53,11 +53,11 @@ public class Escenario {
         columnas = 20;
         matriz = new char[][] {
             "####################".toCharArray(),
+            "#.............T....#".toCharArray(),
             "#..................#".toCharArray(),
             "#..................#".toCharArray(),
             "#..................#".toCharArray(),
-            "#..................#".toCharArray(),
-            "#..................#".toCharArray(),
+            "#.................T#".toCharArray(),
             "####################".toCharArray()
         };
     }
@@ -70,13 +70,23 @@ public class Escenario {
         GridPane gridPane = new GridPane();
         Image sueloImagen = new Image(getClass().getResource("/com/imagenes/floor_light.png").toExternalForm());
         Image muroImagen = new Image(getClass().getResource("/com/imagenes/Wall_front.png").toExternalForm());
-
+        // imagen de Game over para que se vea la trampilla en negro
+        Image trampillaImagen = new Image(getClass().getResource("/com/imagenes/Gameover.png").toExternalForm());
         for (int i = 0; i < filas; i++) {
             for (int j = 0; j < columnas; j++) {
-                ImageView celda = matriz[i][j] == '#' ? new ImageView(muroImagen) : new ImageView(sueloImagen);
+                ImageView celda;
+                if (matriz[i][j] == '#') {
+                    celda = new ImageView(muroImagen);
+                } 
+                // He añadido este else if para que se vea la trampilla 
+                else if (matriz[i][j] == 'T') {
+                    celda = new ImageView(trampillaImagen);
+                } else {
+                    celda = new ImageView(sueloImagen);
+                }
                 celda.setFitWidth(32);
                 celda.setFitHeight(70);
-                gridPane.add(celda, j, i);
+                gridPane.add(celda, j, i);     
             }
         }
 

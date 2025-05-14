@@ -9,7 +9,6 @@
     <children>
         <!-- Zona del escenario (85%) -->
         <GridPane fx:id="escenario" style="-fx-background-color: black;" HBox.hgrow="ALWAYS" />
-
         <!-- Zona de información (15%) -->
         <VBox spacing="10" style="-fx-background-color: #333; -fx-padding: 10; -fx-pref-width: 150;">
             <!-- Información del turno -->

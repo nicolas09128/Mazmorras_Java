@@ -223,6 +223,19 @@ public class VistaJuegoController {
             return;
         }
 
+        // if para que la trampilla te quite 20 de vida
+    if (esc.getMatriz()[nuevaFila][nuevaColumna] == 'T') {
+        int nuevaSalud = protagonista.getSalud() - 20;
+        protagonista.setSalud(Math.max(0, nuevaSalud));
+        esc.getMatriz()[nuevaFila][nuevaColumna] = '.';
+        actualizarInformacionProtagonista(protagonista);
+    if (protagonista.getSalud() <= 0) {
+        mostrarGameOver();
+        return;
+    }
+}
+
+        
         protagonista.mover(nuevaFila, nuevaColumna, true);
         esc.colocarPersonaje(protagonista, nuevaFila, nuevaColumna, escenario);
 
@@ -433,6 +446,8 @@ public class VistaJuegoController {
         }
     }
 
+
+    
     /**
      * Carga la lista de enemigos iniciales.
      * @return Lista de enemigos
