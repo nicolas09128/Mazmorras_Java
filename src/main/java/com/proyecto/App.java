@@ -14,12 +14,27 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
 
+/**
+ * Clase principal de la aplicación Mazmorra.
+ * Inicia la interfaz gráfica, gestiona el cambio de escenas y almacena el protagonista y el escenario globales.
+ * 
+ * @author Nicolás
+ * @version 1.0
+ * @since 2025-04-22
+ */
 public class App extends Application {
-
+    /** Escena principal de la aplicación. */
     private static Scene scene;
+    /** Protagonista global del juego. */
     private static Protagonista protagonista;
+    /** Escenario global del juego. */
     private static Escenario escenario;
 
+    /**
+     * Método principal de inicio de la aplicación JavaFX.
+     * @param stage Ventana principal
+     * @throws IOException Si ocurre un error al cargar recursos
+     */
     @Override
     public void start(Stage stage) throws IOException {
         URL gifUrl = getClass().getResource("/com/imagenes/portada.gif");
@@ -70,6 +85,11 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Cambia la raíz de la escena principal a la vista indicada.
+     * @param fxml Nombre del archivo FXML (sin extensión)
+     * @throws IOException Si ocurre un error al cargar el FXML
+     */
     static void setRoot(String fxml) throws IOException {
         Parent root = loadFXML(fxml);
         scene.setRoot(root);
@@ -81,27 +101,53 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Carga un archivo FXML y devuelve su raíz.
+     * @param fxml Nombre del archivo FXML (sin extensión)
+     * @return Nodo raíz del FXML
+     * @throws IOException Si ocurre un error al cargar el FXML
+     */
     private static Parent loadFXML(String fxml) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("/com/proyecto/" + fxml + ".fxml"));
         return fxmlLoader.load();
     }
 
+    /**
+     * Establece el protagonista global.
+     * @param nuevoProtagonista Protagonista a establecer
+     */
     public static void setProtagonista(Protagonista nuevoProtagonista) {
         protagonista = nuevoProtagonista;
     }
 
+    /**
+     * Obtiene el protagonista global.
+     * @return Protagonista actual
+     */
     public static Protagonista getProtagonista() {
         return protagonista;
     }
 
+    /**
+     * Obtiene el escenario global.
+     * @return Escenario actual
+     */
     public static Escenario getEscenario() {
         return escenario;
     }
 
+    /**
+     * Establece el escenario global.
+     * @param nuevoEscenario Escenario a establecer
+     */
     public static void setEscenario(Escenario nuevoEscenario) {
         escenario = nuevoEscenario;
     }
 
+    /**
+     * Método main. Lanza la aplicación JavaFX.
+     * @param args Argumentos de línea de comandos
+     */
     public static void main(String[] args) {
         launch();
     }

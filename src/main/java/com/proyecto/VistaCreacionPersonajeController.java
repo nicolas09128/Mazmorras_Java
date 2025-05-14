@@ -11,20 +11,35 @@ import javafx.scene.layout.StackPane;
 
 import java.net.URL;
 
+/**
+ * Controlador de la pantalla de creación de personaje.
+ * Permite al usuario introducir los datos del protagonista y valida la entrada.
+ * 
+ * @author Nicolás
+ * @version 1.0
+ * @since 2025-04-22
+ */
 public class VistaCreacionPersonajeController {
 
+    /** Campo de texto para el nombre del personaje. */
     @FXML
     private TextField nombre;
 
+    /** Campo de texto para la salud del personaje. */
     @FXML
     private TextField salud;
 
+    /** Campo de texto para el ataque del personaje. */
     @FXML
     private TextField ataque;
 
+    /** Panel raíz de la vista. */
     @FXML
     private StackPane rootPane;
 
+    /**
+     * Inicializa la vista y coloca la imagen de fondo.
+     */
     @FXML
     public void initialize() {
       
@@ -44,6 +59,10 @@ public class VistaCreacionPersonajeController {
         rootPane.getChildren().add(0, fondo);
     }
 
+    /**
+     * Valida los datos introducidos y crea el protagonista si son correctos.
+     * @param event Evento de acción del botón
+     */
     @FXML
     private void confirmarDatos(ActionEvent event) {
         String nombreTexto = nombre.getText();

@@ -16,32 +16,56 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Controlador de la vista principal del juego.
+ * Gestiona el tablero, el movimiento, el combate y el flujo de la partida.
+ * 
+ * @author Nicolás
+ * @version 1.0
+ * @since 2025-04-22
+ */
 public class VistaJuegoController {
 
+    /** GridPane que representa el escenario visual. */
     @FXML
     private GridPane escenario;
 
+    /** Labels de estadísticas del protagonista. */
     @FXML
     private Label nombreProtagonista, ataqueProtagonista, defensaProtagonista, turnoActual;
 
+    /** Barra de vida del protagonista. */
     @FXML
     private ProgressBar vidaProtagonista;
 
+    /** Labels y barra de vida del enemigo seleccionado. */
     @FXML
     private Label nombreEnemigo, ataqueEnemigo, defensaEnemigo;
     @FXML
     private ProgressBar vidaEnemigo;
 
+    /** Modelo de escenario. */
     private Escenario esc;
+    /** Protagonista del juego. */
     private Protagonista protagonista;
+    /** Lista de enemigos activos. */
     private List<Enemigo> enemigos;
+    /** Índice del turno actual. */
     private int turnoActualIndex;
+    /** Tamaño de celda en píxeles. */
     private static final int TAMANO_CELDA = 32; // Tamaño de celda en píxeles
+    /** Enemigo actualmente en combate. */
     private Enemigo enemigoEnCombate = null;
+    /** Indica si se está en combate por turnos. */
     private boolean enCombate = false;
+    /** Controla si ya se realizó un clic este turno. */
     private boolean clicRealizadoEsteTurno = false;
+    /** Contador de enemigos derrotados. */
     private int enemigosMatados = 0; // Contador de enemigos derrotados
 
+    /**
+     * Inicializa la vista y el modelo al cargar la pantalla de juego.
+     */
     @FXML
     public void initialize() {
         escenario.setFocusTraversable(true);
@@ -143,6 +167,10 @@ public class VistaJuegoController {
         iniciarMovimientoEnemigos();
     }
 
+    /**
+     * Gestiona el movimiento del protagonista según la tecla pulsada.
+     * @param event Evento de teclado
+     */
     @FXML
     private void manejarMovimientoProtagonista(KeyEvent event) {
         if (protagonista == null || turnoActualIndex != 0) return; // Solo mover si es el turno del protagonista
@@ -202,7 +230,12 @@ public class VistaJuegoController {
         avanzarTurno();
     }
 
-    // Nueva función para validar movimiento del protagonista
+    /**
+     * Valida si una posición es libre para el protagonista.
+     * @param fila Fila destino
+     * @param columna Columna destino
+     * @return true si es libre, false si está ocupada o es muro
+     */
     private boolean esPosicionLibreParaProtagonista(int fila, int columna) {
         if (fila < 0 || fila >= esc.getFilas() || columna < 0 || columna >= esc.getColumnas())
             return false;
@@ -215,6 +248,11 @@ public class VistaJuegoController {
         return true;
     }
 
+    /**
+     * Realiza un ataque entre dos personajes y gestiona el resultado.
+     * @param atacante Personaje que ataca
+     * @param defensor Personaje que recibe el ataque
+     */
     private void realizarAtaque(Personaje atacante, Personaje defensor) {
         int danio;
         if (atacante instanceof Enemigo) {
@@ -252,11 +290,17 @@ public class VistaJuegoController {
         }
     }
 
-private void iniciarMovimientoEnemigos() {
-    // Este método ahora solo inicia el sistema de turnos
-    // Los enemigos se moverán/atacarán cuando sea su turno a través de avanzarTurno()
-}
+    /**
+     * Inicia el sistema de turnos de enemigos (placeholder).
+     */
+    private void iniciarMovimientoEnemigos() {
+        // Este método ahora solo inicia el sistema de turnos
+        // Los enemigos se moverán/atacarán cuando sea su turno a través de avanzarTurno()
+    }
 
+    /**
+     * Mueve a los enemigos según el turno y lógica de IA.
+     */
     private void moverEnemigos() {
         if (enCombate) return; // Si estamos en combate por turnos, no mover enemigos
         for (Enemigo enemigo : enemigos) {
@@ -305,7 +349,13 @@ private void iniciarMovimientoEnemigos() {
         }
     }
 
-    // Nueva función para validar movimiento de enemigos
+    /**
+     * Valida si una posición es libre para un enemigo.
+     * @param fila Fila destino
+     * @param columna Columna destino
+     * @param enemigoActual Enemigo que intenta moverse
+     * @return true si es libre, false si está ocupada o es muro
+     */
     private boolean esPosicionLibreParaEnemigo(int fila, int columna, Enemigo enemigoActual) {
         if (fila < 0 || fila >= esc.getFilas() || columna < 0 || columna >= esc.getColumnas())
             return false;
@@ -322,6 +372,12 @@ private void iniciarMovimientoEnemigos() {
         return true;
     }
 
+    /**
+     * Devuelve el enemigo en una posición dada, o null si no hay ninguno.
+     * @param fila Fila
+     * @param columna Columna
+     * @return Enemigo en esa posición o null
+     */
     private Enemigo obtenerEnemigoEnPosicion(int fila, int columna) {
         for (Enemigo enemigo : enemigos) {
             if (enemigo.getFila() == fila && enemigo.getColumna() == columna) {
@@ -331,10 +387,19 @@ private void iniciarMovimientoEnemigos() {
         return null;
     }
 
+    /**
+     * Calcula la distancia Manhattan entre dos personajes.
+     * @param p1 Primer personaje
+     * @param p2 Segundo personaje
+     * @return Distancia Manhattan
+     */
     private int calcularDistancia(Personaje p1, Personaje p2) {
         return Math.abs(p1.getFila() - p2.getFila()) + Math.abs(p1.getColumna() - p2.getColumna());
     }
 
+    /**
+     * Avanza el turno al siguiente personaje (jugador o enemigo).
+     */
     private void avanzarTurno() {
         // Si estamos en combate, NO avanzar turno automáticamente
         if (enCombate) return;
@@ -357,6 +422,9 @@ private void iniciarMovimientoEnemigos() {
         }
     }
 
+    /**
+     * Actualiza el texto del turno actual en la interfaz.
+     */
     private void actualizarTurno() {
         if (turnoActualIndex == 0) {
             turnoActual.setText("Turno: Protagonista");
@@ -365,6 +433,10 @@ private void iniciarMovimientoEnemigos() {
         }
     }
 
+    /**
+     * Carga la lista de enemigos iniciales.
+     * @return Lista de enemigos
+     */
     private List<Enemigo> cargarEnemigos() {
         List<Enemigo> enemigos = new ArrayList<>();
         enemigos.add(new Enemigo("Slime1", 50, 10, 5, 2, 3, 3));
@@ -372,6 +444,10 @@ private void iniciarMovimientoEnemigos() {
         return enemigos;
     }
 
+    /**
+     * Actualiza la información visual del protagonista.
+     * @param protagonista Protagonista a mostrar
+     */
     private void actualizarInformacionProtagonista(Protagonista protagonista) {
         nombreProtagonista.setText("Nombre: " + protagonista.getNombre());
         ataqueProtagonista.setText("Ataque: " + protagonista.getAtaque());
@@ -379,82 +455,100 @@ private void iniciarMovimientoEnemigos() {
         vidaProtagonista.setProgress(protagonista.getSalud() / 100.0);
     }
 
-private void verificarEstadoJuego() {
-    if (protagonista.getSalud() <= 0) {
-        mostrarGameOver();
-    } else if (enemigos.isEmpty()) {
-        mostrarVictoria();
-    }
-}
-
-private void mostrarGameOver() {
-    Platform.runLater(() -> {
-        try {
-            javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/proyecto/vistaGameOver.fxml"));
-            javafx.scene.Parent root = loader.load();
-            VistaGameOverController controller = loader.getController();
-            controller.setEnemigosMatados(enemigosMatados);
-            // Cambiar la raíz de la escena principal usando el GridPane escenario
-            escenario.getScene().setRoot(root);
-        } catch (IOException e) {
-            e.printStackTrace();
+    /**
+     * Verifica el estado del juego (victoria o derrota).
+     */
+    private void verificarEstadoJuego() {
+        if (protagonista.getSalud() <= 0) {
+            mostrarGameOver();
+        } else if (enemigos.isEmpty()) {
+            mostrarVictoria();
         }
-    });
-}
+    }
 
+    /**
+     * Muestra la pantalla de Game Over.
+     */
+    private void mostrarGameOver() {
+        Platform.runLater(() -> {
+            try {
+                javafx.fxml.FXMLLoader loader = new javafx.fxml.FXMLLoader(getClass().getResource("/com/proyecto/vistaGameOver.fxml"));
+                javafx.scene.Parent root = loader.load();
+                VistaGameOverController controller = loader.getController();
+                controller.setEnemigosMatados(enemigosMatados);
+                // Cambiar la raíz de la escena principal usando el GridPane escenario
+                escenario.getScene().setRoot(root);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+    }
+
+    /**
+     * Muestra la pantalla de victoria (no usada, fin de juego es Game Over).
+     */
     private void mostrarVictoria() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    // Nuevo método para gestionar el ataque del protagonista durante el combate por turnos
-   private void ataqueTurnoCombate() {
-    if (!enCombate || enemigoEnCombate == null) return;
-    // El jugador ataca
-    realizarAtaque(protagonista, enemigoEnCombate);
-    actualizarBarraVida(vidaEnemigo, enemigoEnCombate.getSalud() / (double)enemigoEnCombate.getSaludMaxima());
-    if (enemigoEnCombate.getSalud() <= 0) {
-        eliminarEnemigoDelMapa(enemigoEnCombate);
-        enCombate = false;
-        enemigoEnCombate = null;
-        verificarEstadoJuego();
-        return;
-    }
-    // Deshabilitar input del jugador hasta que el enemigo termine su ataque
-    escenario.setDisable(true);
-    Timeline enemigoAtaca = new Timeline(
-        new KeyFrame(Duration.seconds(0.7), e -> {
-            // El enemigo ataca SOLO, no debe haber ningún ataque automático del protagonista después
-            realizarAtaque(enemigoEnCombate, protagonista);
-            actualizarBarraVida(vidaProtagonista, protagonista.getSalud() / 100.0);
-            if (protagonista.getSalud() <= 0) {
-                mostrarGameOver();
-                enCombate = false;
+    /**
+     * Gestiona el ataque del protagonista durante el combate por turnos.
+     */
+    private void ataqueTurnoCombate() {
+        if (!enCombate || enemigoEnCombate == null) return;
+        // El jugador ataca
+        realizarAtaque(protagonista, enemigoEnCombate);
+        actualizarBarraVida(vidaEnemigo, enemigoEnCombate.getSalud() / (double)enemigoEnCombate.getSaludMaxima());
+        if (enemigoEnCombate.getSalud() <= 0) {
+            eliminarEnemigoDelMapa(enemigoEnCombate);
+            enCombate = false;
+            enemigoEnCombate = null;
+            verificarEstadoJuego();
+            return;
+        }
+        // Deshabilitar input del jugador hasta que el enemigo termine su ataque
+        escenario.setDisable(true);
+        Timeline enemigoAtaca = new Timeline(
+            new KeyFrame(Duration.seconds(0.7), e -> {
+                // El enemigo ataca SOLO, no debe haber ningún ataque automático del protagonista después
+                realizarAtaque(enemigoEnCombate, protagonista);
+                actualizarBarraVida(vidaProtagonista, protagonista.getSalud() / 100.0);
+                if (protagonista.getSalud() <= 0) {
+                    mostrarGameOver();
+                    enCombate = false;
+                    escenario.setDisable(false);
+                    return;
+                }
+                // Rehabilitar input del jugador tras el ataque del enemigo
                 escenario.setDisable(false);
-                return;
-            }
-            // Rehabilitar input del jugador tras el ataque del enemigo
-            escenario.setDisable(false);
-            // NO LLAMAR a ataqueTurnoCombate ni a avanzarTurno aquí
-        })
-    );
-    enemigoAtaca.setCycleCount(1);
-    enemigoAtaca.play();
-}
+                // NO LLAMAR a ataqueTurnoCombate ni a avanzarTurno aquí
+            })
+        );
+        enemigoAtaca.setCycleCount(1);
+        enemigoAtaca.play();
+    }
 
-    // Modifica iniciarCombate para no atacar automáticamente, sino esperar a que el usuario pulse la tecla de dirección hacia el enemigo
-   private void iniciarCombate(Enemigo enemigoObjetivo) {
-    enCombate = true;
-    enemigoEnCombate = enemigoObjetivo;
-    mostrarInformacionEnemigo(enemigoObjetivo);
-    
-    // Mostrar mensaje indicando que es el turno del jugador
-    Alert alert = new Alert(AlertType.INFORMATION);
-    alert.setTitle("Combate");
-    alert.setHeaderText(null);
-    alert.setContentText("¡Combate iniciado! Es tu turno de atacar.");
-    alert.showAndWait();
-}
+    /**
+     * Inicia el combate por turnos contra un enemigo.
+     * @param enemigoObjetivo Enemigo a combatir
+     */
+    private void iniciarCombate(Enemigo enemigoObjetivo) {
+        enCombate = true;
+        enemigoEnCombate = enemigoObjetivo;
+        mostrarInformacionEnemigo(enemigoObjetivo);
+        
+        // Mostrar mensaje indicando que es el turno del jugador
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Combate");
+        alert.setHeaderText(null);
+        alert.setContentText("¡Combate iniciado! Es tu turno de atacar.");
+        alert.showAndWait();
+    }
 
+    /**
+     * Muestra la información del enemigo seleccionado.
+     * @param enemigo Enemigo a mostrar
+     */
     private void mostrarInformacionEnemigo(Enemigo enemigo) {
         Platform.runLater(() -> {
             nombreEnemigo.setText("Nombre: " + enemigo.getNombre());
@@ -464,6 +558,11 @@ private void mostrarGameOver() {
         });
     }
 
+    /**
+     * Actualiza la barra de vida de un personaje.
+     * @param barra Barra de progreso
+     * @param progreso Valor de progreso (0-1)
+     */
     private void actualizarBarraVida(ProgressBar barra, double progreso) {
         Platform.runLater(() -> {
             barra.setProgress(progreso);
@@ -477,6 +576,10 @@ private void mostrarGameOver() {
         });
     }
 
+    /**
+     * Elimina completamente a un enemigo del juego y verifica el fin de la partida.
+     * @param enemigo Enemigo a eliminar
+     */
     private void eliminarEnemigoDelMapa(Enemigo enemigo) {
         // Detener cualquier movimiento automático del enemigo
         enemigo.detenerMovimiento();

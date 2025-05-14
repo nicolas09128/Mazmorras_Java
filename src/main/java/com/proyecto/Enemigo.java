@@ -14,11 +14,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Clase que representa un enemigo en el juego.
+ * Hereda de Personaje y añade atributos y métodos específicos de los enemigos.
+ *
+ * @author Nicolás
+ * @version 1.0
+ * @since 2025-04-22
+ */
 public class Enemigo extends Personaje {
 
+    /** Percepción del enemigo (alcance para detectar al protagonista). */
     private int percepcion;
+    /** Imagen principal del enemigo. */
     private ImageView imagen;
+    /** Imagen alternativa (por ejemplo, mirando a la derecha). */
     private ImageView imagenDerecha;
+    /** Hilo de movimiento automático del enemigo. */
     private Thread hiloMovimiento;
 
     private static final Image IMAGEN_ENEMIGO;
@@ -42,6 +54,15 @@ public class Enemigo extends Personaje {
         }
     }
 
+    /**
+     * Constructor de Enemigo con todos los parámetros.
+     * @param nombre Nombre del enemigo
+     * @param salud Salud inicial
+     * @param ataque Ataque inicial
+     * @param defensa Defensa inicial
+     * @param velocidad Velocidad inicial
+     * @param percepcion Alcance de percepción
+     */
     public Enemigo(String nombre, int salud, int ataque, int defensa, int velocidad, int percepcion) {
         super(nombre, salud, ataque, defensa, velocidad);
         this.percepcion = percepcion;
@@ -74,6 +95,16 @@ public class Enemigo extends Personaje {
         this.imagen.setFitHeight(32);
     }
 
+    /**
+     * Constructor de Enemigo con posición inicial.
+     * @param nombre Nombre del enemigo
+     * @param salud Salud inicial
+     * @param ataque Ataque inicial
+     * @param defensa Defensa inicial
+     * @param percepcion Alcance de percepción
+     * @param fila Fila inicial
+     * @param columna Columna inicial
+     */
     public Enemigo(String nombre, int salud, int ataque, int defensa, int percepcion, int fila, int columna) {
         super(nombre, salud, ataque, defensa, 0); // Velocidad predeterminada como 0
         this.percepcion = percepcion;
@@ -95,15 +126,28 @@ public class Enemigo extends Personaje {
         this.imagen.setFitHeight(32);
     }
 
+    /**
+     * Devuelve la percepción del enemigo.
+     * @return Valor de percepción
+     */
     public int getPercepcion() {
         return percepcion;
     }
 
+    /**
+     * Devuelve la imagen principal del enemigo.
+     * @return ImageView del enemigo
+     */
     @Override
     public ImageView getImagen() {
         return imagen;
     }
 
+    /**
+     * Mueve al enemigo a una nueva posición.
+     * @param nuevaFila Fila destino
+     * @param nuevaColumna Columna destino
+     */
     public void mover(int nuevaFila, int nuevaColumna) {
         setFila(nuevaFila);
         setColumna(nuevaColumna);
@@ -170,6 +214,13 @@ public class Enemigo extends Personaje {
         return enemigos;
     }
 
+    /**
+     * Inicia el movimiento automático del enemigo en un hilo.
+     * @param escenario Escenario de juego
+     * @param protagonista Protagonista
+     * @param gridPane GridPane visual
+     * @param enemigos Lista de enemigos
+     */
     public void iniciarMovimientoAutomatico(Escenario escenario, Protagonista protagonista, GridPane gridPane, List<Enemigo> enemigos) {
         hiloMovimiento = new Thread(() -> {
             while (!Thread.currentThread().isInterrupted()) {
@@ -239,6 +290,9 @@ public class Enemigo extends Personaje {
         hiloMovimiento.start();
     }
 
+    /**
+     * Detiene el movimiento automático del enemigo.
+     */
     public void detenerMovimiento() {
         if (hiloMovimiento != null && hiloMovimiento.isAlive()) {
             hiloMovimiento.interrupt();

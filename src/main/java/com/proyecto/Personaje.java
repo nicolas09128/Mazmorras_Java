@@ -10,16 +10,40 @@ import com.proyecto.Escenario.Observador;
 
 import javafx.scene.image.ImageView;
 
+/**
+ * Clase base para los personajes del juego (protagonista y enemigos).
+ * Contiene atributos y métodos comunes a todos los personajes.
+ *
+ * @author Nicolás
+ * @version 1.0
+ * @since 2025-04-22
+ */
 public abstract class Personaje {
+    /** Nombre del personaje. */
     private String nombre;
+    /** Salud actual del personaje. */
     private int salud;
+    /** Ataque del personaje. */
     private int ataque;
+    /** Defensa del personaje. */
     private int defensa;
+    /** Velocidad del personaje. */
     private int velocidad;
+    /** Fila actual en el tablero. */
     private int fila;
+    /** Columna actual en el tablero. */
     private int columna;
+    /** Salud máxima del personaje. */
     private int saludMaxima;
 
+    /**
+     * Constructor de Personaje.
+     * @param nombre Nombre
+     * @param salud Salud inicial
+     * @param ataque Ataque inicial
+     * @param defensa Defensa inicial
+     * @param velocidad Velocidad inicial
+     */
     public Personaje(String nombre, int salud, int ataque, int defensa, int velocidad) {
         this.nombre = nombre;
         this.salud = salud;

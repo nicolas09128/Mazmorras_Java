@@ -3,11 +3,27 @@ package com.proyecto;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+/**
+ * Clase que representa el protagonista del juego.
+ * Contiene los atributos y métodos específicos del personaje controlado por el usuario.
+ *
+ * @author Nicolás
+ * @version 1.0
+ * @since 2025-04-22
+ */
 public class Protagonista extends Personaje {
 
     private ImageView imagen;
     private boolean mirandoDerecha = true; 
 
+    /**
+     * Constructor del protagonista.
+     * @param nombre Nombre del protagonista
+     * @param salud Salud inicial
+     * @param ataque Ataque inicial
+     * @param defensa Defensa inicial
+     * @param velocidad Velocidad inicial
+     */
     public Protagonista(String nombre, int salud, int ataque, int defensa, int velocidad) {
         super(nombre, salud, ataque, defensa, velocidad);
         setSaludMaxima(salud); // Guardar la salud máxima
